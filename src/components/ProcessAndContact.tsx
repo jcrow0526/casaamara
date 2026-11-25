@@ -290,7 +290,7 @@ export const ProcessAndContact: React.FC<ProcessAndContactProps> = ({ preselecte
       </section>
 
       {/* FOOTER en basalto */}
-      <footer className="border-t border-[#3B3731] bg-[#1C1A17] pt-12 pb-28 text-[#C2B8A8] lg:pb-12">
+      <footer className="border-t border-[#3B3731] bg-[#1C1A17] py-12 text-[#C2B8A8]">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
           <div className="flex items-center gap-3.5">
             <img
