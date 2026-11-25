@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Paleta Piedra Natural (Travertino, Caliza, Cantera y Basalto) + Madera Lambrín + Latón */
+  --color-stone-50: #F4F1EC;
+  --color-stone-100: #EAE5DD;
+  --color-stone-200: #DBD4C8;
+  --color-stone-300: #C2B8A8;
+  --color-stone-500: #787166;
+  --color-stone-700: #46413A;
+  --color-stone-800: #2C2925;
+  --color-stone-900: #1C1A17;
+
+  --color-gold: #B89047;
+  --color-gold-light: #D4B26E;
+  --color-oak: #7C4D25;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    background-color: var(--color-stone-100);
+    color: var(--color-stone-900);
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: var(--color-stone-100);
+    color: var(--color-stone-900);
+  }
+}
+
+/* Textura sutil mineral de piedra caliza / travertino */
+.stone-surface {
+  background-color: #EAE5DD;
+  background-image:
+    radial-gradient(at 15% 10%, rgba(255, 255, 255, 0.45) 0px, transparent 50%),
+    radial-gradient(at 85% 90%, rgba(162, 151, 136, 0.22) 0px, transparent 55%),
+    linear-gradient(180deg, #EFECE6 0%, #E7E1D7 100%);
+}
+
+.stone-dark-surface {
+  background-color: #1F1D1A;
+  background-image:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(184, 144, 71, 0.16), transparent 72%),
+    linear-gradient(180deg, #24221E 0%, #191714 100%);
+}
+
+/* Textura arquitectónica de lambrín acanalado (sutil y refinada) */
+.lambrin-wall {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      #3A2618 0px,
+      #5B3B22 3px,
+      #784E2C 6px,
+      #5B3B22 9px,
+      #2A1C12 12px,
+      #22170F 14px
+    );
+}
+
+.lambrin-slat-stone {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(44, 41, 37, 0.055) 0px,
+      rgba(44, 41, 37, 0.02) 4px,
+      rgba(255, 255, 255, 0.22) 7px,
+      rgba(44, 41, 37, 0.05) 12px,
+      transparent 14px
+    );
+}
+
+.gold-shimmer {
+  background: linear-gradient(110deg, #8F6B2D 0%, #C49B4E 48%, #DEC080 54%, #A8803B 68%, #7D5D24 100%);
+  background-size: 220% auto;
+  transition: background-position 0.55s ease;
+}
+
+.gold-shimmer:hover {
+  background-position: right center;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #E2DCD2;
+}
+::-webkit-scrollbar-thumb {
+  background: #9E9486;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6F665A;
+}
