@@ -51,7 +51,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     shortDesc: '100% acero acabado nogal/chocolate · 95×205 cm · Cerradura multipunto.',
     description:
       'Puerta de seguridad exterior fabricada en acero de alta resistencia con acabado estético tipo madera nogal/chocolate. Equipada con sistema de cerradura multipunto de 11 pasadores, marco reforzado y mirilla panorámica gran angular.',
-    image: './images/door-wood-steel.jpg',
+    image: './images/prod-door-styrka.jpg',
     specs: [
       'Medidas estándar: 95 × 205 cm',
       'Acero calibre reforzado con relleno aislante',
@@ -83,7 +83,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     shortDesc: 'Acero texturizado chocolate · 95×205 cm · Alta resistencia exterior.',
     description:
       'Uno de los modelos favoritos en México por su balance entre diseño minimalista y protección real. Estructura 100% de acero con recubrimiento anticorrosivo ideal para entradas principales expuestas al clima de Sonora.',
-    image: './images/door-dark-luxury.jpg',
+    image: './images/prod-door-toledo.jpg',
     specs: [
       'Medidas: 95 × 205 cm (marco incluido)',
       'Recubrimiento texturizado tono Chocolate',
@@ -115,7 +115,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     shortDesc: 'Acero arquitectónico · Sello térmico/acústico ideal para Hermosillo.',
     description:
       'Eleva la fachada de tu hogar con líneas limpias contemporáneas y aislamiento térmico-acústico superior. Perfecta para residencias en Hermosillo que buscan conservar el aire acondicionado sin sacrificar máxima seguridad.',
-    image: './images/door-wood-steel.jpg',
+    image: './images/prod-door-sevilla.jpg',
     specs: [
       'Medidas: 95 × 205 cm',
       'Aislamiento térmico y acústico reforzado',
@@ -147,7 +147,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     shortDesc: 'Calibre grueso 95×215 cm · 13 pasadores · Bisagras ocultas.',
     description:
       'Ingeniería de seguridad residencial superior de XE Seguridad. Altura estilizada de 2.15 m, lámina de acero de mayor calibre, 13 pasadores de cierre perimetral y estética sobria de lujo.',
-    image: './images/door-dark-luxury.jpg',
+    image: './images/prod-door-xe-luxury.jpg',
     specs: [
       'Altura residencial de lujo: 95 × 215 cm',
       '13 pasadores de acero sólido en 4 direcciones',
@@ -179,7 +179,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     shortDesc: '120×215 cm con panel fijo lateral · Blindaje multipunto premium.',
     description:
       'Presencia imponente para entradas principales amplias. Combina la hoja principal blindada de acero con un panel fijo lateral de diseño arquitectónico con cristal templado esmerilado y reja de seguridad integrada.',
-    image: './images/door-sidelight.jpg',
+    image: './images/prod-door-xe-3l.jpg',
     specs: [
       'Medidas totales: 120 × 215 cm con fijo lateral',
       'Cristal templado esmerilado con protección interna',
@@ -215,7 +215,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     shortDesc: 'Huella 0.3s · App Tuya Wi-Fi · PIN anti-espía · RFID · Llave física.',
     description:
       'La cerradura inteligente con mejor relación calidad-precio en MercadoLibre México. Controla accesos desde tu celular vía Tuya Smart / Smart Life, genera códigos temporales para visitas y desbloquea al instante con huella biométrica.',
-    image: './images/smart-lock-hero.jpg',
+    image: './images/prod-lock-dakuly.jpg',
     specs: [
       '5 métodos: Huella, App Wi-Fi, PIN, Tarjeta RFID y Llave',
       'Compatible con Tuya Smart, Alexa y Google Home',
@@ -246,7 +246,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     shortDesc: 'App Steren Home · Huella biométrica · Teclado táctil · RFID.',
     description:
       'Confiabilidad total de Steren México. Gestiona usuarios, recibe notificaciones de entrada en tiempo real en tu teléfono y crea contraseñas dinámicas con vigencia programada.',
-    image: './images/smart-lock-yale.jpg',
+    image: './images/prod-lock-steren510.jpg',
     specs: [
       'Conexión Wi-Fi directa (sin hub adicional)',
       'App Steren Home en español (iOS y Android)',
@@ -277,7 +277,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     shortDesc: 'Aleación de zinc alta resistencia · Códigos remotos · Alarma anti-forzado.',
     description:
       'Construcción robusta en aleación de zinc diseñada para puertas principales de alto tráfico. Genera códigos por fecha y hora para huéspedes, personal de servicio o familiares sin entregar llaves físicas.',
-    image: './images/smart-lock-hero.jpg',
+    image: './images/prod-lock-tocklock.jpg',
     specs: [
       'Cuerpo sólido en aleación de zinc resistente a intemperie',
       'Códigos temporales, cíclicos y de un solo uso',
@@ -308,7 +308,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     shortDesc: 'Videotimbre HD integrado · Audio bidireccional · Desbloqueo remoto.',
     description:
       'Mira quién toca a tu puerta en video HD desde cualquier lugar del mundo, conversa mediante audio bidireccional y autoriza la apertura de forma remota desde tu smartphone.',
-    image: './images/smart-lock-camera.jpg',
+    image: './images/prod-lock-steren480.jpg',
     specs: [
       'Cámara gran angular HD con visión nocturna infrarroja',
       'Timbre integrado con notificación instantánea al celular',
@@ -339,7 +339,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     shortDesc: 'Estándar mundial Yale · Pantalla táctil · Alexa, Google y Apple Home.',
     description:
       'El referente global en cerrajería arquitectónica. Pantalla táctil capacitiva libre de huellas residuales, integración nativa con ecosistemas de casa inteligente y certificación ANSI/BHMA Grado 2.',
-    image: './images/smart-lock-yale.jpg',
+    image: './images/prod-lock-yale.jpg',
     specs: [
       'Certificación de seguridad ANSI/BHMA Grado 2',
       'Teclado táctil iluminado de respuesta instantánea',
