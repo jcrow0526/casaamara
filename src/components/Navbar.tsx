@@ -62,7 +62,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <img
               src="./images/logo-mark.png"
               alt="Casa Amara Logo"
-              className="h-11 w-11 rounded-lg border border-[#C2B8A8] object-cover transition-transform duration-300 group-hover:scale-105"
+              className="h-12 w-auto object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
             />
             <div>
               <div className="font-serif text-xl font-semibold tracking-[0.16em] text-[#1C1A17] sm:text-2xl">

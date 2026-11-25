@@ -296,7 +296,7 @@ export const ProcessAndContact: React.FC<ProcessAndContactProps> = ({ preselecte
             <img
               src="./images/logo-mark.png"
               alt="Casa Amara"
-              className="h-12 w-12 rounded-lg border border-[#46413A] object-cover"
+              className="h-12 w-auto object-contain"
             />
             <div>
               <p className="font-serif text-xl tracking-[0.18em] text-[#F4F1EC]">CASA AMARA</p>
