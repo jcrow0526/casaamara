@@ -74,7 +74,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onAddToCart }) =
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p className="text-xs font-semibold tracking-[0.26em] text-[#787166] uppercase">
-              Tienda Online · Listo para Ecart Pay
+              Tienda Online · Envío e Instalación
             </p>
             <h2 className="mt-2 font-serif text-3xl font-medium text-[#1C1A17] sm:text-5xl">
               Seguridad Arquitectónica
@@ -89,7 +89,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onAddToCart }) =
           <div className="inline-flex items-center gap-2 self-start rounded-xl border border-[#D4CCC0] bg-[#EAE5DD] px-4 py-2.5 text-xs text-[#46413A] md:self-auto">
             <CreditCard className="h-4 w-4 text-[#7C4D25]" />
             <span>
-              Hasta <strong>12 MSI</strong> · SPEI y Tarjetas vía <strong>Ecart Pay</strong>
+              Hasta <strong>12 MSI</strong> · Tarjetas, SPEI y Efectivo
             </span>
           </div>
         </div>
@@ -350,7 +350,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onAddToCart }) =
                       {formatMXN(selectedProduct.priceMXN)}
                     </span>
                     <span className="text-xs text-[#6B645A]">
-                      MXN · Hasta 12 MSI con Ecart Pay
+                      MXN · Hasta 12 Meses sin Intereses
                     </span>
                   </div>
 

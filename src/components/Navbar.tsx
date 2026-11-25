@@ -39,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const whatsappUrl = `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '526620000000'}?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '526624284304'}?text=${encodeURIComponent(
     'Hola Casa Amara, me interesa cotizar un proyecto o producto en Hermosillo, Sonora.'
   )}`;
 
@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="group flex items-center gap-3 text-left"
           >
             <img
-              src="./images/logo-casa-amara.png"
+              src="./images/logo-mark.png"
               alt="Casa Amara Logo"
               className="h-11 w-11 rounded-lg border border-[#C2B8A8] object-cover transition-transform duration-300 group-hover:scale-105"
             />

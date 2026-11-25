@@ -79,8 +79,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 <CreditCard className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-xs font-bold text-[#1C1A17]">Listo con Ecart Pay</p>
-                <p className="text-[11px] text-[#6B645A]">MSI, SPEI y Tarjetas MX</p>
+                <p className="text-xs font-bold text-[#1C1A17]">Pago Seguro en Línea</p>
+                <p className="text-[11px] text-[#6B645A]">Hasta 12 MSI, SPEI y Tarjetas</p>
               </div>
             </div>
 

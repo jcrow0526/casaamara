@@ -8,7 +8,7 @@ import {
   ShieldCheck,
   CheckCircle2,
   Loader2,
-  Code2,
+  MessageCircle,
   ExternalLink,
 } from 'lucide-react';
 import { formatMXN } from '../data/catalog';
@@ -48,7 +48,6 @@ export const EcartCheckoutModal: React.FC<EcartCheckoutModalProps> = ({
   });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<EcartCheckoutResult | null>(null);
-  const [showPayload, setShowPayload] = useState(false);
 
   const subtotal = items.reduce(
     (sum, item) =>
@@ -78,7 +77,6 @@ export const EcartCheckoutModal: React.FC<EcartCheckoutModalProps> = ({
     if (result) {
       onOrderCompleted();
       setResult(null);
-      setShowPayload(false);
     }
     onClose();
   };
@@ -104,9 +102,9 @@ export const EcartCheckoutModal: React.FC<EcartCheckoutModalProps> = ({
             <div className="stone-dark-surface relative flex items-center justify-between px-6 py-5 text-[#F4F1EC]">
               <div>
                 <p className="text-[10px] font-semibold tracking-[0.24em] text-[#D4B26E] uppercase">
-                  Checkout Seguro · Ecart Pay México
+                  Pago Seguro · Tarjetas, MSI y SPEI
                 </p>
-                <h2 className="font-serif text-2xl">Finalizar Pedido — casamaraestudio.com</h2>
+                <h2 className="font-serif text-2xl">Finalizar Pedido — Casa Amara</h2>
               </div>
               <button
                 type="button"
@@ -242,7 +240,7 @@ export const EcartCheckoutModal: React.FC<EcartCheckoutModalProps> = ({
 
                   <div>
                     <label className="text-xs font-semibold text-[#46413A]">
-                      Método de Pago Preferido (Ecart Pay)
+                      Método de Pago Preferido
                     </label>
                     <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
                       {[
@@ -312,12 +310,12 @@ export const EcartCheckoutModal: React.FC<EcartCheckoutModalProps> = ({
                     {loading ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin text-[#D4B26E]" />
-                        <span>Generando orden en Ecart Pay…</span>
+                        <span>Procesando tu pedido…</span>
                       </>
                     ) : (
                       <>
                         <ShieldCheck className="h-4 w-4 text-[#D4B26E]" />
-                        <span>Continuar al Pago Seguro · {formatMXN(total)}</span>
+                        <span>Confirmar y Continuar al Pago · {formatMXN(total)}</span>
                       </>
                     )}
                   </button>
@@ -328,39 +326,37 @@ export const EcartCheckoutModal: React.FC<EcartCheckoutModalProps> = ({
                     <CheckCircle2 className="mt-0.5 h-6 w-6 shrink-0 text-[#2F6B48]" />
                     <div>
                       <p className="font-serif text-xl font-semibold text-[#1C1A17]">
-                        Orden Ecart Pay Generada: {result.orderId}
+                        ¡Pedido Registrado! Folio {result.orderId}
                       </p>
                       <p className="mt-1 text-xs leading-relaxed text-[#46413A]">
-                        {result.message}
+                        Hemos recibido los detalles de tu compra en Hermosillo. Nuestro equipo te
+                        compartirá tu enlace de pago y coordinará tu entrega o instalación.
                       </p>
                     </div>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setShowPayload((v) => !v)}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-[#C2B8A8] px-4 py-2 text-xs font-semibold text-[#1C1A17] hover:bg-[#EAE5DD]"
+                    <a
+                      href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '526624284304'}?text=${encodeURIComponent(
+                        `Hola Casa Amara, acabo de registrar mi pedido ${result.orderId} por ${formatMXN(total)} MXN a nombre de ${form.firstName} ${form.lastName}.`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[#2F6B48]/40 bg-[#2F6B48]/10 px-4 py-2 text-xs font-semibold text-[#2F6B48] hover:bg-[#2F6B48]/20"
                     >
-                      <Code2 className="h-3.5 w-3.5" />
-                      <span>{showPayload ? 'Ocultar' : 'Ver'} Payload JSON Ecart Pay</span>
-                    </button>
+                      <MessageCircle className="h-3.5 w-3.5" />
+                      <span>Confirmar por WhatsApp</span>
+                    </a>
 
                     <button
                       type="button"
                       onClick={handleClose}
                       className="inline-flex items-center gap-1.5 rounded-full bg-[#1C1A17] px-5 py-2 text-xs font-semibold text-[#F4F1EC]"
                     >
-                      <span>Finalizar y volver a la tienda</span>
+                      <span>Volver a la tienda</span>
                       <ExternalLink className="h-3.5 w-3.5 text-[#D4B26E]" />
                     </button>
                   </div>
-
-                  {showPayload && (
-                    <pre className="max-h-64 overflow-auto rounded-xl bg-[#1C1A17] p-4 text-[11px] text-[#D4B26E]">
-                      {JSON.stringify(result.payload, null, 2)}
-                    </pre>
-                  )}
                 </div>
               )}
             </div>

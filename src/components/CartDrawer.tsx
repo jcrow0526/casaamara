@@ -224,7 +224,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#1C1A17] px-6 py-3.5 text-sm font-semibold text-[#F4F1EC] shadow-lg transition hover:bg-[#2C2925] active:scale-[0.98]"
                 >
                   <CreditCard className="h-4 w-4 text-[#D4B26E]" />
-                  <span>Pagar con Ecart Pay</span>
+                  <span>Finalizar Compra Segura</span>
                   <ArrowRight className="h-4 w-4 text-[#D4B26E]" />
                 </button>
                 <p className="mt-2 text-center text-[10px] text-[#6B645A]">

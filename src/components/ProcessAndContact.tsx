@@ -63,7 +63,7 @@ export const ProcessAndContact: React.FC<ProcessAndContactProps> = ({ preselecte
   const handleQuoteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    const whatsappNum = import.meta.env.VITE_WHATSAPP_NUMBER || '526620000000';
+    const whatsappNum = import.meta.env.VITE_WHATSAPP_NUMBER || '526624284304';
     const msg = `Hola Casa Amara (casamaraestudio.com), soy ${name} de ${zone}, Hermosillo. Me gustaría cotizar: ${service}. Tel: ${phone}. Detalles: ${details || 'Solicito asesoría y visita.'}`;
     window.open(
       `https://wa.me/${whatsappNum}?text=${encodeURIComponent(msg)}`,
@@ -168,10 +168,15 @@ export const ProcessAndContact: React.FC<ProcessAndContactProps> = ({ preselecte
                     <Mail className="h-4 w-4 text-[#D4B26E]" />
                     <span>hola@casamaraestudio.com</span>
                   </div>
-                  <div className="flex items-center gap-2.5">
+                  <a
+                    href="https://wa.me/526624284304"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 transition hover:text-[#F4F1EC]"
+                  >
                     <MessageCircle className="h-4 w-4 text-[#D4B26E]" />
-                    <span>Atención directa WhatsApp · Lun–Sáb 9:00 a 19:00</span>
-                  </div>
+                    <span>WhatsApp (662) 428-4304 · Lun–Sáb 9:00 a 19:00</span>
+                  </a>
                 </div>
               </div>
 
@@ -289,7 +294,7 @@ export const ProcessAndContact: React.FC<ProcessAndContactProps> = ({ preselecte
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
           <div className="flex items-center gap-3.5">
             <img
-              src="./images/logo-casa-amara.png"
+              src="./images/logo-mark.png"
               alt="Casa Amara"
               className="h-12 w-12 rounded-lg border border-[#46413A] object-cover"
             />
@@ -304,7 +309,7 @@ export const ProcessAndContact: React.FC<ProcessAndContactProps> = ({ preselecte
           <div className="text-xs text-[#9E9486]">
             <p>© {new Date().getFullYear()} Casa Amara Estudio · casamaraestudio.com</p>
             <p className="mt-1">
-              Pagos seguros preparados para Ecart Pay (Tarjetas, MSI y SPEI México).
+              Pagos seguros con Tarjetas, Meses sin Intereses y transferencia SPEI.
             </p>
           </div>
         </div>
