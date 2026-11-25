@@ -111,6 +111,7 @@ export default function App() {
   };
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const hasDoorInCart = cart.some((item) => item.product.category === 'puertas');
 
   return (
     <div className="min-h-screen bg-[#EAE5DD] text-[#1C1A17]">
@@ -126,9 +127,9 @@ export default function App() {
       <main>
         <Hero onNavigate={navigateSmooth} />
 
-        <StoneLambrinDivider title="Catálogo Top MercadoLibre MX · Garantía Casa Amara" />
+        <StoneLambrinDivider title="Seguridad Residencial · Garantía Casa Amara" />
 
-        <CatalogSection onAddToCart={handleAddToCart} />
+        <CatalogSection hasDoorInCart={hasDoorInCart} onAddToCart={handleAddToCart} />
 
         <StoneLambrinDivider title="Diseño Residencial · Piedra, Lambrín y Arquitectura" />
 
@@ -144,6 +145,7 @@ export default function App() {
         onUpdateQty={handleUpdateQty}
         onToggleInstall={handleToggleInstall}
         onRemoveItem={handleRemoveItem}
+        onQuickAddLock={(lock) => handleAddToCart(lock, lock.variants?.options[0], false)}
         onProceedCheckout={() => {
           setCartOpen(false);
           setCheckoutOpen(true);

@@ -12,16 +12,25 @@ import {
   Wrench,
   CreditCard,
 } from 'lucide-react';
-import { CATALOG_PRODUCTS, formatMXN, type Product, type ProductCategory } from '../data/catalog';
+import {
+  CATALOG_PRODUCTS,
+  INSTALLATION_PROMO_MXN,
+  INSTALLATION_REGULAR_MXN,
+  LOCK_BUNDLE_DISCOUNT_PERCENT,
+  formatMXN,
+  type Product,
+  type ProductCategory,
+} from '../data/catalog';
 
 interface CatalogSectionProps {
+  hasDoorInCart: boolean;
   onAddToCart: (product: Product, variant?: string, includeInstallation?: boolean) => void;
 }
 
 type FilterTab = 'all' | ProductCategory;
 type SortOption = 'featured' | 'price-asc' | 'price-desc';
 
-export const CatalogSection: React.FC<CatalogSectionProps> = ({ onAddToCart }) => {
+export const CatalogSection: React.FC<CatalogSectionProps> = ({ hasDoorInCart, onAddToCart }) => {
   const [activeTab, setActiveTab] = useState<FilterTab>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('featured');
@@ -61,10 +70,28 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onAddToCart }) =
     setTimeout(() => setJustAddedId(null), 1300);
   };
 
+  const doorsCount = CATALOG_PRODUCTS.filter((p) => p.category === 'puertas').length;
+  const locksCount = CATALOG_PRODUCTS.filter((p) => p.category === 'cerraduras').length;
+
   const tabs: Array<{ id: FilterTab; label: string; count: number; icon: React.ReactNode }> = [
-    { id: 'all', label: 'Todo el Catálogo', count: 10, icon: <SlidersHorizontal className="h-3.5 w-3.5" /> },
-    { id: 'puertas', label: 'Puertas de Seguridad', count: 5, icon: <Shield className="h-3.5 w-3.5" /> },
-    { id: 'cerraduras', label: 'Cerraduras Inteligentes', count: 5, icon: <Fingerprint className="h-3.5 w-3.5" /> },
+    {
+      id: 'all',
+      label: 'Todo el Catálogo',
+      count: CATALOG_PRODUCTS.length,
+      icon: <SlidersHorizontal className="h-3.5 w-3.5" />,
+    },
+    {
+      id: 'puertas',
+      label: 'Puertas de Seguridad',
+      count: doorsCount,
+      icon: <Shield className="h-3.5 w-3.5" />,
+    },
+    {
+      id: 'cerraduras',
+      label: 'Cerraduras Inteligentes',
+      count: locksCount,
+      icon: <Fingerprint className="h-3.5 w-3.5" />,
+    },
   ];
 
   return (
@@ -80,9 +107,9 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onAddToCart }) =
               Seguridad Arquitectónica
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#57524A] sm:text-base">
-              Las <strong>5 mejores puertas de seguridad</strong> y las{' '}
-              <strong>5 mejores cerraduras inteligentes</strong> mejor calificadas en México, con
-              garantía directa y opción de instalación profesional en Hermosillo.
+              Puertas de seguridad de acero y cerraduras inteligentes de alta gama con garantía
+              directa. Al comprar tu puerta obtienes <strong>10% OFF en cerraduras</strong> y en
+              cualquier compra la <strong>instalación tiene 50% OFF ($2,400 MXN)</strong>.
             </p>
           </div>
 
@@ -159,11 +186,15 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onAddToCart }) =
         {/* Grid de Productos: Fotografía limpia full-bleed sin marcos */}
         <motion.div
           layout
-          className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+          className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
         >
           <AnimatePresence mode="popLayout">
             {filteredProducts.map((product, index) => {
-              const monthlyMSI = Math.round(product.priceMXN / 12);
+              const lockComboActive = hasDoorInCart && product.category === 'cerraduras';
+              const effectivePrice = lockComboActive
+                ? Math.round(product.priceMXN * (1 - LOCK_BUNDLE_DISCOUNT_PERCENT / 100))
+                : product.priceMXN;
+              const monthlyMSI = Math.round(effectivePrice / 12);
               const isAdded = justAddedId === product.id;
 
               return (
@@ -222,14 +253,31 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onAddToCart }) =
 
                     <div className="mt-auto pt-4">
                       <div className="flex items-baseline justify-between">
-                        <span className="font-serif text-2xl font-bold text-[#1C1A17]">
-                          {formatMXN(product.priceMXN)}
-                        </span>
+                        <div className="flex items-baseline gap-2">
+                          <span className="font-serif text-2xl font-bold text-[#1C1A17]">
+                            {formatMXN(effectivePrice)}
+                          </span>
+                          {lockComboActive && (
+                            <span className="text-xs text-[#787166] line-through">
+                              {formatMXN(product.priceMXN)}
+                            </span>
+                          )}
+                        </div>
                         <span className="text-[10px] font-medium text-[#787166]">MXN</span>
                       </div>
-                      <p className="text-[11px] text-[#6B645A]">
-                        o 12 MSI de <strong>{formatMXN(monthlyMSI)}</strong>
-                      </p>
+                      {lockComboActive ? (
+                        <p className="text-[11px] font-semibold text-[#2F6B48]">
+                          10% OFF aplicado por combo con puerta
+                        </p>
+                      ) : product.category === 'puertas' ? (
+                        <p className="text-[11px] font-medium text-[#7C4D25]">
+                          +10% OFF en cerraduras al agregar
+                        </p>
+                      ) : (
+                        <p className="text-[11px] text-[#6B645A]">
+                          o 12 MSI de <strong>{formatMXN(monthlyMSI)}</strong>
+                        </p>
+                      )}
 
                       <div className="mt-3.5 flex gap-2">
                         <button
@@ -378,7 +426,15 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onAddToCart }) =
                     </div>
                   )}
 
-                  <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-xl border border-[#C2B8A8] bg-[#EAE5DD]/75 p-3.5">
+                  {selectedProduct.category === 'puertas' && (
+                    <div className="mt-4 rounded-xl border border-[#B89047]/40 bg-[#EAE5DD] px-3.5 py-2.5 text-xs text-[#46413A]">
+                      <strong>Beneficio Combo:</strong> Al agregar esta puerta al carrito obtienes{' '}
+                      <strong className="text-[#7C4D25]">10% de descuento automático</strong> en
+                      cualquier cerradura inteligente.
+                    </div>
+                  )}
+
+                  <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-[#C2B8A8] bg-[#EAE5DD]/75 p-3.5">
                     <input
                       type="checkbox"
                       checked={modalInstall}
@@ -386,17 +442,26 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ onAddToCart }) =
                       className="mt-0.5 h-4 w-4 accent-[#7C4D25]"
                     />
                     <div className="flex-1 text-xs">
-                      <div className="flex items-center justify-between font-semibold text-[#1C1A17]">
+                      <div className="flex flex-wrap items-center justify-between gap-1 font-semibold text-[#1C1A17]">
                         <span className="flex items-center gap-1.5">
                           <Wrench className="h-3.5 w-3.5 text-[#7C4D25]" />
-                          Incluir Instalación Profesional en Hermosillo
+                          Instalación Profesional en Hermosillo
+                          <span className="rounded-full bg-[#2F6B48] px-2 py-0.5 text-[10px] font-bold text-white">
+                            50% OFF
+                          </span>
                         </span>
-                        <span className="text-[#7C4D25]">
-                          +{formatMXN(selectedProduct.installationMXN)}
+                        <span className="flex items-center gap-1.5">
+                          <span className="text-[11px] font-normal text-[#787166] line-through">
+                            {formatMXN(INSTALLATION_REGULAR_MXN)}
+                          </span>
+                          <span className="font-bold text-[#7C4D25]">
+                            +{formatMXN(INSTALLATION_PROMO_MXN)}
+                          </span>
                         </span>
                       </div>
                       <p className="mt-0.5 text-[11px] text-[#57524A]">
-                        Nivelación, fijación, configuración de app/llaves y garantía de instalación.
+                        Precio especial por compra de cualquier producto (antes $4,800, queda en
+                        $2,400 MXN). Nivelación, fijación y garantía.
                       </p>
                     </div>
                   </label>

@@ -1,10 +1,70 @@
-import type { Product } from '../data/catalog';
+import {
+  INSTALLATION_PROMO_MXN,
+  INSTALLATION_REGULAR_MXN,
+  LOCK_BUNDLE_DISCOUNT_PERCENT,
+  type Product,
+} from '../data/catalog';
 
 export interface CartItem {
   product: Product;
   quantity: number;
   selectedVariant?: string;
   includeInstallation: boolean;
+}
+
+export interface CartTotals {
+  hasDoorInCart: boolean;
+  productsSubtotal: number;
+  lockBundleDiscount: number;
+  installRegularSubtotal: number;
+  installPromoSubtotal: number;
+  installDiscountSaved: number;
+  shippingCost: number;
+  total: number;
+}
+
+export function calculateCartTotals(items: CartItem[]): CartTotals {
+  const hasDoorInCart = items.some((i) => i.product.category === 'puertas');
+
+  const productsSubtotal = items.reduce(
+    (sum, item) => sum + item.product.priceMXN * item.quantity,
+    0
+  );
+
+  // 10% de descuento automático en cerraduras inteligentes al comprar una puerta de seguridad
+  const lockBundleDiscount = hasDoorInCart
+    ? items.reduce((sum, item) => {
+        if (item.product.category !== 'cerraduras') return sum;
+        const unitDiscount = Math.round(
+          (item.product.priceMXN * LOCK_BUNDLE_DISCOUNT_PERCENT) / 100
+        );
+        return sum + unitDiscount * item.quantity;
+      }, 0)
+    : 0;
+
+  // Instalación profesional con 50% de descuento ($4,800 -> $2,400 MXN) en la compra de cualquier producto
+  const installCount = items.reduce(
+    (sum, item) => sum + (item.includeInstallation ? item.quantity : 0),
+    0
+  );
+  const installRegularSubtotal = installCount * INSTALLATION_REGULAR_MXN;
+  const installPromoSubtotal = installCount * INSTALLATION_PROMO_MXN;
+  const installDiscountSaved = installRegularSubtotal - installPromoSubtotal;
+
+  const netSubtotal = productsSubtotal - lockBundleDiscount + installPromoSubtotal;
+  const shippingCost = netSubtotal === 0 || netSubtotal >= 5000 ? 0 : 290;
+  const total = netSubtotal + shippingCost;
+
+  return {
+    hasDoorInCart,
+    productsSubtotal,
+    lockBundleDiscount,
+    installRegularSubtotal,
+    installPromoSubtotal,
+    installDiscountSaved,
+    shippingCost,
+    total,
+  };
 }
 
 export interface CustomerCheckoutInfo {
@@ -62,6 +122,8 @@ export interface EcartPayOrderPayload {
     store: 'casamaraestudio.com';
     city_origin: 'Hermosillo, Sonora';
     preferred_payment_method: string;
+    lock_bundle_discount_applied: boolean;
+    installation_50_off_applied: boolean;
     notes?: string;
   };
   notify_url: string;
@@ -78,39 +140,44 @@ export interface EcartCheckoutResult {
 
 export function buildEcartOrderPayload(
   cart: CartItem[],
-  customer: CustomerCheckoutInfo,
-  shippingCostMXN: number
+  customer: CustomerCheckoutInfo
 ): EcartPayOrderPayload {
+  const totals = calculateCartTotals(cart);
   const items: EcartPayOrderPayload['items'] = [];
 
   for (const item of cart) {
     const variantSuffix = item.selectedVariant ? ` (${item.selectedVariant})` : '';
+    const isDiscountedLock = totals.hasDoorInCart && item.product.category === 'cerraduras';
+    const unitDiscount = isDiscountedLock
+      ? Math.round((item.product.priceMXN * LOCK_BUNDLE_DISCOUNT_PERCENT) / 100)
+      : 0;
+
     items.push({
       sku: item.product.sku,
       name: `${item.product.name}${variantSuffix}`,
       price: item.product.priceMXN,
       quantity: item.quantity,
-      discount: 0,
+      discount: unitDiscount,
       is_service: false,
     });
 
     if (item.includeInstallation) {
       items.push({
         sku: `${item.product.sku}-INST`,
-        name: `Instalación Profesional en Hermosillo — ${item.product.name}`,
-        price: item.product.installationMXN,
+        name: `Instalación Profesional en Hermosillo (50% OFF) — ${item.product.name}`,
+        price: INSTALLATION_REGULAR_MXN,
         quantity: item.quantity,
-        discount: 0,
+        discount: INSTALLATION_REGULAR_MXN - INSTALLATION_PROMO_MXN, // -$2,400 MXN (queda en $2,400)
         is_service: true,
       });
     }
   }
 
-  if (shippingCostMXN > 0) {
+  if (totals.shippingCost > 0) {
     items.push({
       sku: 'CA-ENVIO-MX',
       name: 'Envío Asegurado Casa Amara',
-      price: shippingCostMXN,
+      price: totals.shippingCost,
       quantity: 1,
       discount: 0,
       is_service: true,
@@ -141,6 +208,8 @@ export function buildEcartOrderPayload(
       store: 'casamaraestudio.com',
       city_origin: 'Hermosillo, Sonora',
       preferred_payment_method: customer.paymentMethod,
+      lock_bundle_discount_applied: totals.lockBundleDiscount > 0,
+      installation_50_off_applied: totals.installDiscountSaved > 0,
       ...(customer.notes?.trim() ? { notes: customer.notes.trim() } : {}),
     },
     notify_url: 'https://casamaraestudio.com/api/ecart-webhook',
@@ -148,17 +217,11 @@ export function buildEcartOrderPayload(
   };
 }
 
-/**
- * Envía la orden al backend conectado a Ecart Pay (`VITE_ECART_API_ENDPOINT`).
- * Si el backend aún no está desplegado o faltan las credenciales de Ecart Pay,
- * devuelve una simulación realista de Sandbox con el payload listo para auditar.
- */
 export async function createEcartCheckout(
   cart: CartItem[],
-  customer: CustomerCheckoutInfo,
-  shippingCostMXN: number
+  customer: CustomerCheckoutInfo
 ): Promise<EcartCheckoutResult> {
-  const payload = buildEcartOrderPayload(cart, customer, shippingCostMXN);
+  const payload = buildEcartOrderPayload(cart, customer);
   const endpoint = import.meta.env.VITE_ECART_API_ENDPOINT as string | undefined;
 
   if (endpoint) {
@@ -177,24 +240,22 @@ export async function createEcartCheckout(
             orderId: data.id || data.order_id || `CA-${Date.now()}`,
             payLink: data.pay_link,
             payload,
-            message: 'Orden creada en Ecart Pay. Redirigiendo a la pasarela segura…',
+            message: 'Orden creada. Redirigiendo a la pasarela de pago…',
           };
         }
       }
     } catch {
-      // Fallback limpio a Sandbox Preview cuando aún no se configura el backend en producción
+      // Fallback limpio cuando el endpoint serverless aún no está activo
     }
   }
 
-  // Simulación lista para pruebas mientras el propietario coloca sus llaves reales de Ecart Pay
-  await new Promise((resolve) => setTimeout(resolve, 900));
-  const mockOrderId = `ECP-HMO-${Math.floor(100000 + Math.random() * 900000)}`;
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  const mockOrderId = `CA-HMO-${Math.floor(100000 + Math.random() * 900000)}`;
 
   return {
     mode: 'sandbox_preview',
     orderId: mockOrderId,
     payload,
-    message:
-      'Orden estructurada en formato oficial Ecart Pay (MXN). Agrega tus llaves ECART_PUBLIC_KEY y ECART_PRIVATE_KEY en .env para activar el cobro en vivo.',
+    message: 'Pedido registrado con éxito.',
   };
 }

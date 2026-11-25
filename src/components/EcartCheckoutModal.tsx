@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { formatMXN } from '../data/catalog';
 import {
+  calculateCartTotals,
   createEcartCheckout,
   type CartItem,
   type CustomerCheckoutInfo,
@@ -49,21 +50,13 @@ export const EcartCheckoutModal: React.FC<EcartCheckoutModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<EcartCheckoutResult | null>(null);
 
-  const subtotal = items.reduce(
-    (sum, item) =>
-      sum +
-      item.product.priceMXN * item.quantity +
-      (item.includeInstallation ? item.product.installationMXN * item.quantity : 0),
-    0
-  );
-  const shipping = subtotal >= 5000 || subtotal === 0 ? 0 : 290;
-  const total = subtotal + shipping;
+  const { total } = calculateCartTotals(items);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await createEcartCheckout(items, form, shipping);
+      const res = await createEcartCheckout(items, form);
       setResult(res);
       if (res.mode === 'live' && res.payLink) {
         window.location.href = res.payLink;

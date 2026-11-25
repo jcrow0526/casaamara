@@ -128,10 +128,10 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 </div>
                 <div className="hidden shrink-0 rounded-xl border border-[#F4F1EC]/20 bg-[#1C1A17]/65 px-3.5 py-2 text-right backdrop-blur-md sm:block">
                   <p className="text-[10px] tracking-[0.18em] text-[#D4B26E] uppercase">
-                    Catálogo Top MX
+                    Promoción Vigente
                   </p>
                   <p className="text-xs font-semibold text-[#F4F1EC]">
-                    5 Puertas · 5 Cerraduras
+                    Instalación 50% OFF · $2,400
                   </p>
                 </div>
               </div>
