@@ -1,8 +1,10 @@
 export type ProductCategory = 'puertas' | 'cerraduras';
 
 export const LOCK_BUNDLE_DISCOUNT_PERCENT = 10;
-export const INSTALLATION_REGULAR_MXN = 4800;
-export const INSTALLATION_PROMO_MXN = 2400; // 50% de descuento en la compra de cualquier producto
+export const DOOR_INSTALLATION_REGULAR_MXN = 12800;
+export const DOOR_INSTALLATION_PROMO_MXN = 6400; // Ya con 50% de descuento al comprar puerta
+export const LOCK_INSTALLATION_REGULAR_MXN = 2600;
+export const LOCK_INSTALLATION_PROMO_MXN = 1300; // Instalación de chapas/cerraduras de seguridad
 
 export interface Product {
   id: string;
@@ -19,7 +21,7 @@ export interface Product {
   priceMXN: number;
   /** Costo regular de instalación profesional en Hermosillo */
   installationRegularMXN: number;
-  /** Costo promocional de instalación (50% OFF) = $2,400 MXN */
+  /** Costo promocional de instalación (Puertas $6,400 / Chapas $1,300) */
   installationMXN: number;
   shortDesc: string;
   description: string;
@@ -53,8 +55,8 @@ export const CATALOG_PRODUCTS: Product[] = [
     mercadoLibreBaseMXN: 4600,
     marginPercent: 50,
     priceMXN: applyMargin(4600, 50), // $6,900 MXN
-    installationRegularMXN: INSTALLATION_REGULAR_MXN,
-    installationMXN: INSTALLATION_PROMO_MXN,
+    installationRegularMXN: DOOR_INSTALLATION_REGULAR_MXN,
+    installationMXN: DOOR_INSTALLATION_PROMO_MXN,
     shortDesc: '100% acero acabado nogal/chocolate · 95×205 cm · Cerradura multipunto.',
     description:
       'Puerta de seguridad exterior fabricada en acero de alta resistencia con acabado estético tipo madera nogal/chocolate. Equipada con sistema de cerradura multipunto de 11 pasadores, marco reforzado y mirilla panorámica gran angular.',
@@ -86,8 +88,8 @@ export const CATALOG_PRODUCTS: Product[] = [
     mercadoLibreBaseMXN: 4490,
     marginPercent: 50,
     priceMXN: applyMargin(4490, 50), // $6,735 MXN
-    installationRegularMXN: INSTALLATION_REGULAR_MXN,
-    installationMXN: INSTALLATION_PROMO_MXN,
+    installationRegularMXN: DOOR_INSTALLATION_REGULAR_MXN,
+    installationMXN: DOOR_INSTALLATION_PROMO_MXN,
     shortDesc: 'Acero texturizado chocolate · 95×205 cm · Alta resistencia exterior.',
     description:
       'Uno de los modelos favoritos en México por su balance entre diseño minimalista y protección real. Estructura 100% de acero con recubrimiento anticorrosivo ideal para entradas principales expuestas al clima de Sonora.',
@@ -119,8 +121,8 @@ export const CATALOG_PRODUCTS: Product[] = [
     mercadoLibreBaseMXN: 5990,
     marginPercent: 50,
     priceMXN: applyMargin(5990, 50), // $8,985 MXN
-    installationRegularMXN: INSTALLATION_REGULAR_MXN,
-    installationMXN: INSTALLATION_PROMO_MXN,
+    installationRegularMXN: DOOR_INSTALLATION_REGULAR_MXN,
+    installationMXN: DOOR_INSTALLATION_PROMO_MXN,
     shortDesc: 'Acero arquitectónico · Sello térmico/acústico ideal para Hermosillo.',
     description:
       'Eleva la fachada de tu hogar con líneas limpias contemporáneas y aislamiento térmico-acústico superior. Perfecta para residencias en Hermosillo que buscan conservar el aire acondicionado sin sacrificar máxima seguridad.',
@@ -152,8 +154,8 @@ export const CATALOG_PRODUCTS: Product[] = [
     mercadoLibreBaseMXN: 7890,
     marginPercent: 50,
     priceMXN: applyMargin(7890, 50), // $11,835 MXN
-    installationRegularMXN: INSTALLATION_REGULAR_MXN,
-    installationMXN: INSTALLATION_PROMO_MXN,
+    installationRegularMXN: DOOR_INSTALLATION_REGULAR_MXN,
+    installationMXN: DOOR_INSTALLATION_PROMO_MXN,
     shortDesc: 'Calibre grueso 95×215 cm · 13 pasadores · Bisagras ocultas.',
     description:
       'Ingeniería de seguridad residencial superior de XE Seguridad. Altura estilizada de 2.15 m, lámina de acero de mayor calibre, 13 pasadores de cierre perimetral y estética sobria de lujo.',
@@ -185,8 +187,8 @@ export const CATALOG_PRODUCTS: Product[] = [
     mercadoLibreBaseMXN: 11900,
     marginPercent: 50,
     priceMXN: applyMargin(11900, 50), // $17,850 MXN
-    installationRegularMXN: INSTALLATION_REGULAR_MXN,
-    installationMXN: INSTALLATION_PROMO_MXN,
+    installationRegularMXN: DOOR_INSTALLATION_REGULAR_MXN,
+    installationMXN: DOOR_INSTALLATION_PROMO_MXN,
     shortDesc: '120×215 cm con panel fijo lateral · Blindaje multipunto premium.',
     description:
       'Presencia imponente para entradas principales amplias. Combina la hoja principal blindada de acero con un panel fijo lateral de diseño arquitectónico y cerradura multipunto XE de alta seguridad.',
@@ -222,8 +224,8 @@ export const CATALOG_PRODUCTS: Product[] = [
     mercadoLibreBaseMXN: 1290,
     marginPercent: 50,
     priceMXN: applyMargin(1290, 50), // $1,935 MXN
-    installationRegularMXN: INSTALLATION_REGULAR_MXN,
-    installationMXN: INSTALLATION_PROMO_MXN,
+    installationRegularMXN: LOCK_INSTALLATION_REGULAR_MXN,
+    installationMXN: LOCK_INSTALLATION_PROMO_MXN,
     shortDesc: 'Huella 0.3s · App Tuya Wi-Fi · PIN anti-espía · RFID · Llave física.',
     description:
       'La cerradura inteligente con mejor relación calidad-precio. Controla accesos desde tu celular vía Tuya Smart / Smart Life, genera códigos temporales para visitas y desbloquea al instante con huella biométrica.',
@@ -254,8 +256,8 @@ export const CATALOG_PRODUCTS: Product[] = [
     mercadoLibreBaseMXN: 3299,
     marginPercent: 50,
     priceMXN: applyMargin(3299, 50), // $4,949 MXN
-    installationRegularMXN: INSTALLATION_REGULAR_MXN,
-    installationMXN: INSTALLATION_PROMO_MXN,
+    installationRegularMXN: LOCK_INSTALLATION_REGULAR_MXN,
+    installationMXN: LOCK_INSTALLATION_PROMO_MXN,
     shortDesc: 'Aleación de zinc alta resistencia · Códigos remotos · Alarma anti-forzado.',
     description:
       'Construcción robusta en aleación de zinc diseñada para puertas principales de alto tráfico. Genera códigos por fecha y hora para huéspedes, personal de servicio o familiares sin entregar llaves físicas.',
@@ -286,8 +288,8 @@ export const CATALOG_PRODUCTS: Product[] = [
     mercadoLibreBaseMXN: 5490,
     marginPercent: 50,
     priceMXN: applyMargin(5490, 50), // $8,235 MXN
-    installationRegularMXN: INSTALLATION_REGULAR_MXN,
-    installationMXN: INSTALLATION_PROMO_MXN,
+    installationRegularMXN: LOCK_INSTALLATION_REGULAR_MXN,
+    installationMXN: LOCK_INSTALLATION_PROMO_MXN,
     shortDesc: 'Estándar mundial Yale · Pantalla táctil · Alexa, Google y Apple Home.',
     description:
       'El referente global en cerrajería arquitectónica. Pantalla táctil capacitiva libre de huellas residuales, integración nativa con ecosistemas de casa inteligente y certificación ANSI/BHMA Grado 2.',

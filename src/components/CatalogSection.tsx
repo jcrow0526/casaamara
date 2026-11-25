@@ -14,8 +14,6 @@ import {
 } from 'lucide-react';
 import {
   CATALOG_PRODUCTS,
-  INSTALLATION_PROMO_MXN,
-  INSTALLATION_REGULAR_MXN,
   LOCK_BUNDLE_DISCOUNT_PERCENT,
   formatMXN,
   type Product,
@@ -107,9 +105,10 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ hasDoorInCart, o
               Seguridad Arquitectónica
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#57524A] sm:text-base">
-              Puertas de seguridad de acero y cerraduras inteligentes de alta gama con garantía
-              directa. Al comprar tu puerta obtienes <strong>10% OFF en cerraduras</strong> y en
-              cualquier compra la <strong>instalación tiene 50% OFF ($2,400 MXN)</strong>.
+              Puertas de seguridad de acero y cerraduras inteligentes con garantía directa. Al
+              comprar tu puerta obtienes <strong>10% OFF en cerraduras</strong> y puedes agregar
+              instalación profesional con descuento (<strong>$6,400 MXN en puertas</strong> ·{' '}
+              <strong>$1,300 MXN en chapas</strong>; servicio válido solo en Hermosillo).
             </p>
           </div>
 
@@ -282,7 +281,11 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ hasDoorInCart, o
                       <div className="mt-3.5 flex gap-2">
                         <button
                           type="button"
-                          onClick={() => handleQuickAdd(product)}
+                          onClick={() =>
+                            product.category === 'puertas'
+                              ? openQuickView(product)
+                              : handleQuickAdd(product)
+                          }
                           className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2.5 text-xs font-semibold transition active:scale-95 ${
                             isAdded
                               ? 'bg-[#2F6B48] text-white'
@@ -297,7 +300,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ hasDoorInCart, o
                           ) : (
                             <>
                               <ShoppingBag className="h-3.5 w-3.5 text-[#D4B26E]" />
-                              <span>Agregar</span>
+                              <span>{product.category === 'puertas' ? 'Comprar' : 'Agregar'}</span>
                             </>
                           )}
                         </button>
@@ -445,23 +448,29 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({ hasDoorInCart, o
                       <div className="flex flex-wrap items-center justify-between gap-1 font-semibold text-[#1C1A17]">
                         <span className="flex items-center gap-1.5">
                           <Wrench className="h-3.5 w-3.5 text-[#7C4D25]" />
-                          Instalación Profesional en Hermosillo
+                          {selectedProduct.category === 'puertas'
+                            ? 'Agregar Instalación de Puerta'
+                            : 'Agregar Instalación de Chapa'}
                           <span className="rounded-full bg-[#2F6B48] px-2 py-0.5 text-[10px] font-bold text-white">
                             50% OFF
                           </span>
                         </span>
                         <span className="flex items-center gap-1.5">
                           <span className="text-[11px] font-normal text-[#787166] line-through">
-                            {formatMXN(INSTALLATION_REGULAR_MXN)}
+                            {formatMXN(selectedProduct.installationRegularMXN)}
                           </span>
                           <span className="font-bold text-[#7C4D25]">
-                            +{formatMXN(INSTALLATION_PROMO_MXN)}
+                            +{formatMXN(selectedProduct.installationMXN)}
                           </span>
                         </span>
                       </div>
-                      <p className="mt-0.5 text-[11px] text-[#57524A]">
-                        Precio especial por compra de cualquier producto (antes $4,800, queda en
-                        $2,400 MXN). Nivelación, fijación y garantía.
+                      <p className="mt-1 text-[11px] text-[#57524A]">
+                        {selectedProduct.category === 'puertas'
+                          ? 'Precio final con descuento aplicado: $6,400 MXN. Incluye nivelación, fijación y garantía.'
+                          : 'Instalación profesional de chapa/cerradura de seguridad: $1,300 MXN con configuración.'}
+                      </p>
+                      <p className="mt-1.5 inline-flex items-center rounded-md bg-[#7C4D25]/10 px-2 py-0.5 text-[10px] font-semibold text-[#7C4D25]">
+                        Aviso: Instalación solo válida en Hermosillo, Sonora.
                       </p>
                     </div>
                   </label>

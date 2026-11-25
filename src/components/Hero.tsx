@@ -70,7 +70,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               </div>
               <div>
                 <p className="text-[11px] font-bold text-[#1C1A17] sm:text-xs">Instalación Local</p>
-                <p className="text-[10px] text-[#6B645A] sm:text-[11px]">50% OFF · $2,400</p>
+                <p className="text-[10px] text-[#6B645A] sm:text-[11px]">Solo en Hermosillo</p>
               </div>
             </div>
 
@@ -126,10 +126,10 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 </div>
                 <div className="hidden shrink-0 rounded-xl border border-[#F4F1EC]/20 bg-[#1C1A17]/65 px-3 py-1.5 text-right backdrop-blur-md sm:block">
                   <p className="text-[9px] tracking-[0.18em] text-[#D4B26E] uppercase">
-                    Promoción Vigente
+                    Solo en Hermosillo
                   </p>
                   <p className="text-xs font-semibold text-[#F4F1EC]">
-                    Instalación 50% OFF · $2,400
+                    Instalación Puertas $6,400 · Chapas $1,300
                   </p>
                 </div>
               </div>

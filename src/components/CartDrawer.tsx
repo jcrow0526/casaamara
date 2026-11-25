@@ -15,8 +15,6 @@ import {
 } from 'lucide-react';
 import {
   CATALOG_PRODUCTS,
-  INSTALLATION_PROMO_MXN,
-  INSTALLATION_REGULAR_MXN,
   LOCK_BUNDLE_DISCOUNT_PERCENT,
   formatMXN,
   type Product,
@@ -96,8 +94,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   </div>
                   <p className="mt-4 font-serif text-2xl text-[#1C1A17]">Tu carrito está vacío</p>
                   <p className="mt-1 max-w-xs text-xs text-[#6B645A]">
-                    Explora nuestras puertas de seguridad y cerraduras inteligentes con instalación
-                    al 50% OFF ($2,400 MXN) en Hermosillo.
+                    Explora nuestras puertas de seguridad y cerraduras inteligentes con opción de
+                    instalación en Hermosillo (puertas $6,400 · chapas $1,300).
                   </p>
                 </div>
               ) : (
@@ -184,30 +182,39 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           </div>
                         </div>
 
-                        {/* Promoción 50% OFF en instalación ($4,800 -> $2,400 MXN) */}
-                        <label className="mt-2.5 flex cursor-pointer items-center justify-between gap-2 border-t border-[#E2DCD2] pt-2 text-[11px] text-[#57524A]">
-                          <span className="flex items-center gap-1.5">
-                            <input
-                              type="checkbox"
-                              checked={item.includeInstallation}
-                              onChange={() => onToggleInstall(idx)}
-                              className="accent-[#7C4D25]"
-                            />
-                            <Wrench className="h-3 w-3 text-[#7C4D25]" />
-                            <span>Instalación</span>
-                            <span className="rounded-full bg-[#2F6B48] px-1.5 py-0.5 text-[9px] font-bold text-white">
-                              50% OFF
+                        {/* Agregado de instalación: Puertas $6,400 (con descuento) / Chapas $1,300 · Solo Hermosillo */}
+                        <div className="mt-2.5 border-t border-[#E2DCD2] pt-2">
+                          <label className="flex cursor-pointer items-center justify-between gap-2 text-[11px] text-[#57524A]">
+                            <span className="flex items-center gap-1.5">
+                              <input
+                                type="checkbox"
+                                checked={item.includeInstallation}
+                                onChange={() => onToggleInstall(idx)}
+                                className="accent-[#7C4D25]"
+                              />
+                              <Wrench className="h-3 w-3 text-[#7C4D25]" />
+                              <span>
+                                {item.product.category === 'puertas'
+                                  ? 'Instalación puerta'
+                                  : 'Instalación chapa'}
+                              </span>
+                              <span className="rounded-full bg-[#2F6B48] px-1.5 py-0.5 text-[9px] font-bold text-white">
+                                50% OFF
+                              </span>
                             </span>
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <span className="text-[10px] text-[#787166] line-through">
-                              {formatMXN(INSTALLATION_REGULAR_MXN * item.quantity)}
+                            <span className="flex items-center gap-1.5">
+                              <span className="text-[10px] text-[#787166] line-through">
+                                {formatMXN(item.product.installationRegularMXN * item.quantity)}
+                              </span>
+                              <span className="font-bold text-[#7C4D25]">
+                                +{formatMXN(item.product.installationMXN * item.quantity)}
+                              </span>
                             </span>
-                            <span className="font-bold text-[#7C4D25]">
-                              +{formatMXN(INSTALLATION_PROMO_MXN * item.quantity)}
-                            </span>
-                          </span>
-                        </label>
+                          </label>
+                          <p className="mt-1 pl-5 text-[10px] font-medium text-[#7C4D25]">
+                            Aviso: Instalación solo válida en Hermosillo, Sonora.
+                          </p>
+                        </div>
                       </div>
                     );
                   })}

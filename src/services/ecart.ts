@@ -1,6 +1,4 @@
 import {
-  INSTALLATION_PROMO_MXN,
-  INSTALLATION_REGULAR_MXN,
   LOCK_BUNDLE_DISCOUNT_PERCENT,
   type Product,
 } from '../data/catalog';
@@ -42,13 +40,17 @@ export function calculateCartTotals(items: CartItem[]): CartTotals {
       }, 0)
     : 0;
 
-  // Instalación profesional con 50% de descuento ($4,800 -> $2,400 MXN) en la compra de cualquier producto
-  const installCount = items.reduce(
-    (sum, item) => sum + (item.includeInstallation ? item.quantity : 0),
+  // Instalación profesional en Hermosillo (Puertas $6,400 ya con descuento / Chapas $1,300)
+  const installRegularSubtotal = items.reduce(
+    (sum, item) =>
+      sum + (item.includeInstallation ? item.product.installationRegularMXN * item.quantity : 0),
     0
   );
-  const installRegularSubtotal = installCount * INSTALLATION_REGULAR_MXN;
-  const installPromoSubtotal = installCount * INSTALLATION_PROMO_MXN;
+  const installPromoSubtotal = items.reduce(
+    (sum, item) =>
+      sum + (item.includeInstallation ? item.product.installationMXN * item.quantity : 0),
+    0
+  );
   const installDiscountSaved = installRegularSubtotal - installPromoSubtotal;
 
   const netSubtotal = productsSubtotal - lockBundleDiscount + installPromoSubtotal;
@@ -164,10 +166,10 @@ export function buildEcartOrderPayload(
     if (item.includeInstallation) {
       items.push({
         sku: `${item.product.sku}-INST`,
-        name: `Instalación Profesional en Hermosillo (50% OFF) — ${item.product.name}`,
-        price: INSTALLATION_REGULAR_MXN,
+        name: `Instalación Profesional solo en Hermosillo — ${item.product.name}`,
+        price: item.product.installationRegularMXN,
         quantity: item.quantity,
-        discount: INSTALLATION_REGULAR_MXN - INSTALLATION_PROMO_MXN, // -$2,400 MXN (queda en $2,400)
+        discount: item.product.installationRegularMXN - item.product.installationMXN,
         is_service: true,
       });
     }
