@@ -7,10 +7,10 @@ import { ProcessAndContact } from './components/ProcessAndContact';
 import { CartDrawer } from './components/CartDrawer';
 import { EcartCheckoutModal } from './components/EcartCheckoutModal';
 import { LambrinProgressSweep, StoneLambrinDivider } from './components/LambrinTransitions';
-import type { Product } from './data/catalog';
+import { CATALOG_PRODUCTS, type Product } from './data/catalog';
 import type { CartItem } from './services/ecart';
 
-const CART_STORAGE_KEY = 'casa_amara_cart_v1';
+const CART_STORAGE_KEY = 'casa_amara_cart_v2';
 
 export default function App() {
   const [navSweep, setNavSweep] = useState(false);
@@ -22,7 +22,15 @@ export default function App() {
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem(CART_STORAGE_KEY);
-      return saved ? (JSON.parse(saved) as CartItem[]) : [];
+      if (!saved) return [];
+      const parsed = JSON.parse(saved) as CartItem[];
+      // Sincroniza con el catálogo vigente y descarta cualquier producto retirado
+      return parsed
+        .map((item) => {
+          const fresh = CATALOG_PRODUCTS.find((p) => p.id === item.product.id);
+          return fresh ? { ...item, product: fresh } : null;
+        })
+        .filter((item): item is CartItem => item !== null);
     } catch {
       return [];
     }
